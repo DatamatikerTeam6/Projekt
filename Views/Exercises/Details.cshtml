@@ -1,0 +1,66 @@
+﻿@model HundeProjekt.Models.Exercise
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Exercise</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MovementEnumID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MovementEnumID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Sideshift)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Sideshift)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IllustrationPath)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IllustrationPath)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ClassEnumID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ClassEnumID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SignNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SignNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PositionX)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PositionX)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PositionY)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PositionY)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ExerciseID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

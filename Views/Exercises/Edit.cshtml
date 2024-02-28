@@ -1,0 +1,69 @@
+﻿@model HundeProjekt.Models.Exercise
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Exercise</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ExerciseID" />
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MovementEnumID" class="control-label"></label>
+                <select asp-for="MovementEnumID" class="form-control"></select>
+                <span asp-validation-for="MovementEnumID" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Sideshift" /> @Html.DisplayNameFor(model => model.Sideshift)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="IllustrationPath" class="control-label"></label>
+                <input asp-for="IllustrationPath" class="form-control" />
+                <span asp-validation-for="IllustrationPath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClassEnumID" class="control-label"></label>
+                <select asp-for="ClassEnumID" class="form-control"></select>
+                <span asp-validation-for="ClassEnumID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SignNumber" class="control-label"></label>
+                <input asp-for="SignNumber" class="form-control" />
+                <span asp-validation-for="SignNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PositionX" class="control-label"></label>
+                <input asp-for="PositionX" class="form-control" />
+                <span asp-validation-for="PositionX" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PositionY" class="control-label"></label>
+                <input asp-for="PositionY" class="form-control" />
+                <span asp-validation-for="PositionY" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

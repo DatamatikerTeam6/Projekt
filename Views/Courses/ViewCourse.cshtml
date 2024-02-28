@@ -1,0 +1,39 @@
+﻿@model HundeProjekt.Models.Course
+
+@{
+    ViewData["Title"] = "ViewCourse";
+}
+
+<h1>RingormPenis</h1>
+
+<p>Ringormens penis finder du her..</p>
+
+
+<div> Oprettet: @Model.CourseDate.ToString("dd/MM/yyyy")</div>
+<div>Navn på bane: @Model.CourseName</div>
+
+<style>
+    #canvas-container {
+        position: relative;
+    }
+
+    #dogTrainingCanvas {
+        background-image: url('/images/Blackbitch.png');
+        background-size: cover;
+        width: 1295px; /* Juster størrelsen efter dine behov */
+        height: 600px; /* Juster størrelsen efter dine behov */
+    }
+</style>
+
+
+<div id="canvas-container">
+    <canvas id="dogTrainingCanvas" width="1295" height="600"></canvas>
+    <!-- Indsæt din canvas kode her -->
+</div>
+
+<!-- Draw exercises -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

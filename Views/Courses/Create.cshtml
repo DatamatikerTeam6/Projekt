@@ -1,0 +1,136 @@
+﻿@model HundeProjekt.Models.CourseExerciseViewModel
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+    #canvas-container {
+        position: relative;
+    }
+
+    #dogTrainingCanvas {
+        background-image: url('/images/Blackbitch.png');
+        background-size: cover;
+        width: 1295px; /* Juster størrelsen efter dine behov */
+        height: 600px; /* Juster størrelsen efter dine behov */
+    }
+</style>
+
+<h1>Ringormbane</h1>
+
+<hr />
+
+
+<div>@Model.Course.CourseDate</div>
+@foreach (var exercise in Model.Exercises)
+{
+    <div>@exercise.IllustrationPath</div>
+}
+
+
+<div id="canvas-container">
+    <canvas id="dogTrainingCanvas" width="1295" height="600"></canvas>
+    <!-- Indsæt din canvas kode her -->
+</div>
+
+
+
+
+@* Exercises *@
+
+ 
+<script>
+
+    @* Omdan Model.Exercises til et JSON-objekt *@
+                     var exercises = @Html.Raw(Json.Serialize(Model.Exercises.Select(e => new
+        {
+            e.ExerciseID,
+            x = e.PositionX,
+            y = e.PositionY,
+            illustrationPath = e.IllustrationPath
+        })));
+
+ 
+      
+   
+    var canvas = document.getElementById('dogTrainingCanvas');
+    var ctx = canvas.getContext('2d');
+
+    exercises.forEach(function (exercise) {
+        var img = new Image();
+        img.onload = function () {
+            console.log("Indlæst billede for øvelse: ", exercise.ExerciseID); // Rettede 'exercises.name' til 'exercise.navn'
+            exercise.image = img;
+            drawExercise(exercise);
+        };
+        img.onerror = function () {
+            console.error("Kunne ikke indlæse billede: ", exercise.illustrationPath); // Rettede 'exercises.IllustrationPath' til 'exercise.IllustrationPath'
+        };
+        img.src = exercise.illustrationPath; // Rettede 'exercises.IllustrationPath' til 'exercise.IllustrationPath'
+    });
+
+    function drawExercise(exercise) {
+        ctx.drawImage(exercise.image, exercise.x, exercise.y, 50, 50); // Rettede 'PositionX' og 'PositionY' til 'x' og 'y'
+    }
+
+    var draggedExercise = null;
+
+    canvas.addEventListener('mousedown', function (e) {
+        exercises.forEach(function (exercise) {
+            if (e.offsetX >= exercise.x && e.offsetX <= exercise.x + 50 && e.offsetY >= exercise.y && e.offsetY <= exercise.y + 50) { // Rettede 'PositionX' og 'PositionY' til 'x' og 'y'
+                draggedExercise = exercise;
+            }
+        });
+    });
+
+    canvas.addEventListener('mousemove', function (e) {
+        if (draggedExercise) {
+            draggedExercise.x = e.offsetX - 25; // Centrer musen på billedet, rettede 'PositionX' til 'x'
+            draggedExercise.y = e.offsetY - 25; // Rettede 'PositionY' til 'y'
+            redrawCanvas(); // Rens og tegn alle øvelserne igen
+        }
+    });
+
+    canvas.addEventListener('mouseup', function () {
+        draggedExercise = null;
+    });
+
+    function redrawCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Rens canvas
+        exercises.forEach(drawExercise); // Tegn alle øvelser igen
+    }
+</script>
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.Course.CourseName" class="control-label"></label>
+                <input asp-for="@Model.Course.CourseName" class="form-control" />
+                <span asp-validation-for="@Model.Course.CourseName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Course.CourseDate" class="control-label"></label>
+                <input asp-for="@Model.Course.CourseDate" class="form-control" />
+                <span asp-validation-for="@Model.Course.CourseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Opret svinet" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
