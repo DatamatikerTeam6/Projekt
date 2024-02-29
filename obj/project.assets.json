@@ -8183,11 +8183,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Justin\\Desktop\\Skal uploades\\HundeProjekt\\HundeProjekt.csproj",
+      "projectUniqueName": "C:\\Users\\Justin\\Datamatiker\\Programmering\\Kode\\HundeProjekt\\HundeProjekt.csproj",
       "projectName": "HundeProjekt",
-      "projectPath": "C:\\Users\\Justin\\Desktop\\Skal uploades\\HundeProjekt\\HundeProjekt.csproj",
+      "projectPath": "C:\\Users\\Justin\\Datamatiker\\Programmering\\Kode\\HundeProjekt\\HundeProjekt.csproj",
       "packagesPath": "C:\\Users\\Justin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Justin\\Desktop\\Skal uploades\\HundeProjekt\\obj\\",
+      "outputPath": "C:\\Users\\Justin\\Datamatiker\\Programmering\\Kode\\HundeProjekt\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Justin\\AppData\\Roaming\\NuGet\\NuGet.Config",

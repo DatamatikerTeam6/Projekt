@@ -80,6 +80,7 @@
         exercises.forEach(function (exercise) {
             if (e.offsetX >= exercise.x && e.offsetX <= exercise.x + 50 && e.offsetY >= exercise.y && e.offsetY <= exercise.y + 50) { // Rettede 'PositionX' og 'PositionY' til 'x' og 'y'
                 draggedExercise = exercise;
+                draggedExercise = Object.assign({}, exercise); // Kopier det trukne objekt
             }
         });
     });
@@ -93,7 +94,11 @@
     });
 
     canvas.addEventListener('mouseup', function () {
-        draggedExercise = null;
+        if (draggedExercise) {
+            exercises.push(draggedExercise); // Tilføj den kopierede øvelse til listen
+            draggedExercise = null;
+            redrawCanvas();
+        }
     });
 
     function redrawCanvas() {
