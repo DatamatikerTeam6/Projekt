@@ -13,7 +13,7 @@ namespace HundeProjekt.Models
         //Navigationproperties        
        //User is missing    
         RuleSet Ruleset { get; set; }
-        ICollection<Exercise> Exercises { get; set; }
-
+        public List<Exercise> Exercises { get; } = [];
+        public List<CourseExercise> CourseExercises { get; } = [];  
     }
 }

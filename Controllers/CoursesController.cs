@@ -20,8 +20,6 @@ namespace HundeProjekt.Controllers
             _context = context;
         }
 
-      
-
         // GET: Courses
         public async Task<IActionResult> Index()
         {
@@ -44,8 +42,6 @@ namespace HundeProjekt.Controllers
             return View(course);
         }
 
-
-
         // GET: Courses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -64,9 +60,6 @@ namespace HundeProjekt.Controllers
             return View(course);
         }
 
- 
-
-
         // GET: Courses/Create
         public IActionResult Create()
         {
@@ -78,23 +71,44 @@ namespace HundeProjekt.Controllers
             return View(viewModel);
         }
 
-
-
-
         // POST: Courses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CourseID,CourseName,CourseDate")] Course course)
+        public async Task<IActionResult> Create(CourseExerciseViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(course);
+                var course = new Course
+                {
+                    CourseName = viewModel.Course.CourseName,
+                    CourseDate = viewModel.Course.CourseDate
+                };     
+                _context.Courses.Add(course);
+                await _context.SaveChangesAsync(); // Create the course to acces its ID
+
+                foreach(var exerciseInViewModel in viewModel.Exercises)
+                {
+                    //Check if the exercise exists
+                    var exerciseExists = await _context.Exercises.AnyAsync(e => e.ExerciseID == exerciseInViewModel.ExerciseID);
+                    if (exerciseExists)
+                    {
+                        var courseExercise = new CourseExercise
+                        {
+                            CourseID = course.CourseID,
+                            ExerciseID = exerciseInViewModel.ExerciseID,
+                            PositionX = exerciseInViewModel.PositionX,
+                            PositionY = exerciseInViewModel.PositionY,
+                        };
+                        //Add CourseExercise to database
+                        _context.Add(courseExercise);
+                    }
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            return View(viewModel);
         }
 
         // GET: Courses/Edit/5

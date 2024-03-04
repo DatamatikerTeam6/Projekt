@@ -11,10 +11,10 @@
         public string IllustrationPath { get; set; }
         public ClassEnum ClassEnumID { get; set; }
         public int SignNumber { get; set; }
-        public int PositionX { get; set; }
-        public int PositionY { get; set; }
+        public double PositionX { get; set; }
+        public double PositionY { get; set; }
 
         //Navigationproperties
-        Course Course { get; set; }
+        public List<Course> Courses { get; } = [];
     }
 }

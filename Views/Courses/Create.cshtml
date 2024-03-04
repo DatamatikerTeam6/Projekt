@@ -21,11 +21,19 @@
 
 <hr />
 
-
-<div>@Model.Course.CourseDate</div>
-@foreach (var exercise in Model.Exercises)
+@if (!ViewData.ModelState.IsValid)
 {
-    <div>@exercise.IllustrationPath</div>
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var key in ViewData.ModelState.Keys)
+            {
+                @foreach (var error in ViewData.ModelState[key].Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
 }
 
 
@@ -39,11 +47,11 @@
 
 @* Exercises *@
 
- 
+
 <script>
 
     @* Omdan Model.Exercises til et JSON-objekt *@
-                     var exercises = @Html.Raw(Json.Serialize(Model.Exercises.Select(e => new
+                         var exercises = @Html.Raw(Json.Serialize(Model.Exercises.Select(e => new
         {
             e.ExerciseID,
             x = e.PositionX,
@@ -51,9 +59,9 @@
             illustrationPath = e.IllustrationPath
         })));
 
- 
-      
-   
+
+
+
     var canvas = document.getElementById('dogTrainingCanvas');
     var ctx = canvas.getContext('2d');
 
@@ -113,6 +121,8 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Inputfelter til bane -->
             <div class="form-group">
                 <label asp-for="@Model.Course.CourseName" class="control-label"></label>
                 <input asp-for="@Model.Course.CourseName" class="form-control" />
@@ -124,11 +134,58 @@
                 <span asp-validation-for="@Model.Course.CourseDate" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="@Model.Course.CourseID" class="control-label"></label>
+                <input asp-for="@Model.Course.CourseID" class="form-control" />
+                <span asp-validation-for="@Model.Course.CourseID" class="text-danger"></span>
+            </div>
+
+
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @for (int i = 0; i < Model.Exercises.Count; i++)
+            {
+                <div class="form-group">
+                    <input type="hidden" asp-for="@Model.Exercises[i].ExerciseID" />
+                    <div class="form-group">
+                        <label asp-for="@Model.Exercises[i].PositionX" class="control-label"></label>
+                        <input asp-for="@Model.Exercises[i].PositionX" class="form-control" />
+                        <span asp-validation-for="@Model.Exercises[i].PositionX" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Exercises[i].PositionY" class="control-label"></label>
+                        <input asp-for="@Model.Exercises[i].PositionY" class="form-control" />
+                        <span asp-validation-for="@Model.Exercises[i].PositionY" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Exercises[i].IllustrationPath" class="control-label"></label>
+                        <input asp-for="@Model.Exercises[i].IllustrationPath" class="form-control" />
+                        <span asp-validation-for="@Model.Exercises[i].IllustrationPath" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Exercises[i].Description" class="control-label"></label>
+                        <input asp-for="@Model.Exercises[i].Description" class="form-control" />
+                        <span asp-validation-for="@Model.Exercises[i].Description" class="text-danger"></span>
+                    </div>
+                </div>
+            }
+
+
+
+
+
+
+
+            <!-- Submit-knap -->
+            <div class="form-group">
                 <input type="submit" value="Opret svinet" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
+
+
+
 
 <div>
     <a asp-action="Index">Back to List</a>

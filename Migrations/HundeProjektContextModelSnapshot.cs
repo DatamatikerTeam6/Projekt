@@ -42,6 +42,36 @@ namespace HundeProjekt.Migrations
                     b.ToTable("Course", (string)null);
                 });
 
+            modelBuilder.Entity("HundeProjekt.Models.CourseExercise", b =>
+                {
+                    b.Property<int>("CourseID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExerciseID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CourseID1")
+                        .HasColumnType("int");
+
+                    b.Property<double>("PositionX")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
+
+                    b.Property<double>("PositionY")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
+
+                    b.HasKey("CourseID", "ExerciseID");
+
+                    b.HasIndex("CourseID1");
+
+                    b.HasIndex("ExerciseID");
+
+                    b.ToTable("CourseExercise", (string)null);
+                });
+
             modelBuilder.Entity("HundeProjekt.Models.Exercise", b =>
                 {
                     b.Property<int>("ExerciseID")
@@ -64,11 +94,11 @@ namespace HundeProjekt.Migrations
                     b.Property<int>("MovementEnumID")
                         .HasColumnType("int");
 
-                    b.Property<int>("PositionX")
-                        .HasColumnType("int");
+                    b.Property<double>("PositionX")
+                        .HasColumnType("float");
 
-                    b.Property<int>("PositionY")
-                        .HasColumnType("int");
+                    b.Property<double>("PositionY")
+                        .HasColumnType("float");
 
                     b.Property<bool>("Sideshift")
                         .HasColumnType("bit");
@@ -131,6 +161,30 @@ namespace HundeProjekt.Migrations
                     b.HasKey("RulesetID");
 
                     b.ToTable("Ruleset", (string)null);
+                });
+
+            modelBuilder.Entity("HundeProjekt.Models.CourseExercise", b =>
+                {
+                    b.HasOne("HundeProjekt.Models.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CourseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HundeProjekt.Models.Course", null)
+                        .WithMany("CourseExercises")
+                        .HasForeignKey("CourseID1");
+
+                    b.HasOne("HundeProjekt.Models.Exercise", null)
+                        .WithMany()
+                        .HasForeignKey("ExerciseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("HundeProjekt.Models.Course", b =>
+                {
+                    b.Navigation("CourseExercises");
                 });
 #pragma warning restore 612, 618
         }

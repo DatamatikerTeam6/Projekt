@@ -37,8 +37,8 @@ namespace HundeProjekt.Migrations
                     IllustrationPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ClassEnumID = table.Column<int>(type: "int", nullable: false),
                     SignNumber = table.Column<int>(type: "int", nullable: false),
-                    PositionX = table.Column<int>(type: "int", nullable: false),
-                    PositionY = table.Column<int>(type: "int", nullable: false)
+                    PositionX = table.Column<double>(type: "float", nullable: false),
+                    PositionY = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,19 +69,64 @@ namespace HundeProjekt.Migrations
                 {
                     table.PrimaryKey("PK_Ruleset", x => x.RulesetID);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "CourseExercise",
+                columns: table => new
+                {
+                    CourseID = table.Column<int>(type: "int", nullable: false),
+                    ExerciseID = table.Column<int>(type: "int", nullable: false),
+                    PositionX = table.Column<double>(type: "float", nullable: false, defaultValue: 0.0),
+                    PositionY = table.Column<double>(type: "float", nullable: false, defaultValue: 0.0),
+                    CourseID1 = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseExercise", x => new { x.CourseID, x.ExerciseID });
+                    table.ForeignKey(
+                        name: "FK_CourseExercise_Course_CourseID",
+                        column: x => x.CourseID,
+                        principalTable: "Course",
+                        principalColumn: "CourseID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CourseExercise_Course_CourseID1",
+                        column: x => x.CourseID1,
+                        principalTable: "Course",
+                        principalColumn: "CourseID");
+                    table.ForeignKey(
+                        name: "FK_CourseExercise_Exercise_ExerciseID",
+                        column: x => x.ExerciseID,
+                        principalTable: "Exercise",
+                        principalColumn: "ExerciseID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseExercise_CourseID1",
+                table: "CourseExercise",
+                column: "CourseID1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseExercise_ExerciseID",
+                table: "CourseExercise",
+                column: "ExerciseID");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "CourseExercise");
+
+            migrationBuilder.DropTable(
+                name: "Ruleset");
+
+            migrationBuilder.DropTable(
                 name: "Course");
 
             migrationBuilder.DropTable(
                 name: "Exercise");
-
-            migrationBuilder.DropTable(
-                name: "Ruleset");
         }
     }
 }
