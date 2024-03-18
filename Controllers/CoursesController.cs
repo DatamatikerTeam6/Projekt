@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HundeProjekt.Data;
 using HundeProjekt.Models;
+using HundeProjekt.Services;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 
 namespace HundeProjekt.Controllers
@@ -14,10 +16,12 @@ namespace HundeProjekt.Controllers
     public class CoursesController : Controller
     {
         private readonly HundeProjektContext _context;
+        private readonly ICourseViewCounter _courseViewCounter;
 
-        public CoursesController(HundeProjektContext context)
+        public CoursesController(HundeProjektContext context, ICourseViewCounter courseViewCounter)
         {
             _context = context;
+            _courseViewCounter = courseViewCounter;
         }
 
         // GET: Courses
@@ -27,6 +31,24 @@ namespace HundeProjekt.Controllers
         }
 
         //GET: Courses/ViewCourse
+        //public async Task<IActionResult> ViewCourse(int? id)
+        //{
+        //    //Put the counter in a Viewbag
+        //    ViewBag.Counter = _courseViewCounter.GetCounter();
+
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var course = await _context.Courses.FindAsync(id);
+        //    if (course == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(course);
+        //}
+
         public async Task<IActionResult> ViewCourse(int? id)
         {
             if (id == null)
@@ -34,13 +56,17 @@ namespace HundeProjekt.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses.FindAsync(id);
-            if (course == null)
+            var courseExercises = await _context.CourseExerciseView
+                                                 .Where(ce => ce.CourseID == id)
+                                                 .ToListAsync();
+            if (courseExercises == null || !courseExercises.Any())
             {
                 return NotFound();
             }
-            return View(course);
+
+            return View(courseExercises); // Passing a collection
         }
+
 
         // GET: Courses/Details/5
         public async Task<IActionResult> Details(int? id)

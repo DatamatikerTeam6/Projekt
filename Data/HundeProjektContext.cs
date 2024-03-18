@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using HundeProjekt.Models;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace HundeProjekt.Data
 {
@@ -18,6 +19,9 @@ namespace HundeProjekt.Data
         public DbSet<HundeProjekt.Models.Exercise> Exercises { get; set; } = default!;
         public DbSet<HundeProjekt.Models.Ruleset> Rulesets { get; set; } = default!;
         public DbSet<HundeProjekt.Models.Course> Courses { get; set; } = default!;
+        public DbSet<HundeProjekt.Models.CourseExercise> CourseExerciseView { get; set; } = default!;
+
+
 
 
 
@@ -25,7 +29,7 @@ namespace HundeProjekt.Data
         {
             modelBuilder.Entity<Exercise>().ToTable("Exercise");
             modelBuilder.Entity<Ruleset>().ToTable("Ruleset");
-            modelBuilder.Entity<Course>().ToTable("Course");
+            modelBuilder.Entity<Course>().ToTable("Course");            
 
             modelBuilder.Entity<Course>()
         .HasMany(c => c.Exercises)
@@ -47,7 +51,11 @@ namespace HundeProjekt.Data
                 j.ToTable("CourseExercise"); // Specificerer navnet på join-tabellen
             });
 
+
+            //Get data from view
+            modelBuilder.Entity<CourseExercise>().ToView("HPCourseExerciseView6");
         }
+
     }
 
 

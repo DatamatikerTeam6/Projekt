@@ -1,17 +1,10 @@
-﻿@model HundeProjekt.Models.Course
+﻿@model IEnumerable<HundeProjekt.Models.CourseExercise>
+
+
 
 @{
     ViewData["Title"] = "ViewCourse";
 }
-
-<h1>RingormPenis</h1>
-
-<p>Ringormens penis finder du her..</p>
-
-
-<div> Oprettet: @Model.CourseDate.ToString("dd/MM/yyyy")</div>
-<div>Navn på bane: @Model.CourseName</div>
-
 <style>
     #canvas-container {
         position: relative;
@@ -25,13 +18,55 @@
     }
 </style>
 
+<h1>Ringormbane</h1>
+
+<hr />
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var key in ViewData.ModelState.Keys)
+            {
+                @foreach (var error in ViewData.ModelState[key].Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+}
+
+
+@foreach (var courseExercise in Model)
+{
+    <h1>@courseExercise.CourseID</h1>
+    <h1>@courseExercise.PositionX</h1>
+    <h1>@courseExercise.PositionY</h1>
+}
+
+
 
 <div id="canvas-container">
     <canvas id="dogTrainingCanvas" width="1295" height="600"></canvas>
     <!-- Indsæt din canvas kode her -->
 </div>
 
-<!-- Draw exercises -->
+
+
+
+@* Exercises *@
+
+
+
+
+
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

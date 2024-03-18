@@ -3,7 +3,6 @@
     public class Exercise
     {
         // Declaration of public properties
-
         public int ExerciseID {  get; set; }
         public string Description { get; set; }
         public MovementEnum MovementEnumID { get; set; }

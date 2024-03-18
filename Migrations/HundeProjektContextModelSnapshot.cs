@@ -70,6 +70,8 @@ namespace HundeProjekt.Migrations
                     b.HasIndex("ExerciseID");
 
                     b.ToTable("CourseExercise", (string)null);
+
+                    b.ToView("HPCourseExerciseView", (string)null);
                 });
 
             modelBuilder.Entity("HundeProjekt.Models.Exercise", b =>
